@@ -33,7 +33,7 @@ package COCI06_Contest2
  */
 
 fun main() {
-    var abcMap = mutableMapOf<Char, Int>()
+    val abcMap = mutableMapOf<Char, Int>()
     /**첫째 줄 input 검사*/
     readlnOrNull()?.let {
         /**1-1. 첫 번째 숫자 범위 검사 ( 1 ~ 100 )*/
