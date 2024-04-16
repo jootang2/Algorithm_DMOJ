@@ -43,25 +43,22 @@ package COCI06_Contest2
  * 3 DCEBFA
  * 4 DECFBA
  * 5 DEFCBA
- * 왼 -> 오른
- *  T         움직이지 않는 INDEX    움직이는 INDEX
- *    0        0 ~ N1-2-0 (안움직임)        N1-1-0
- *    1        0 ~ N1-2-1 (안움직임)        N1-1-1 ~ N1-1-0
- *    2        0 ~ N1-2-2 (안움직임)        N1-1-2 ~ N1-1-0
- *    3        0 ~ N1-2-3 (안움직임)        N1-1-3 ~ N1-1-0
- *    T        0 ~ N1-2-T (안움직임)        N1-1-T ~ N1-1-0
  *
- *    T + INDEX > N1 -1 이면 움직이는 INDEX
- *    일반적으로 INDEX + T - (N1 - 1 - INDEX)
- *    갈 수 있는 최대 INDEX : N1+N2-1-(N1-1-INDEX)
- *
+ *    왼 -> 오른
+ *    T         움직이지 않는 INDEX    움직이는 INDEX
+ *    0        0 ~ N1-1 (안움직임)        -
+ *    1        0 ~ N1-1-1 (안움직임)        N1-1
+ *    2        0 ~ N1-1-2 (안움직임)        N1-2 ~ N1-1
+ *    3        0 ~ N1-1-3 (안움직임)        N1-3 ~ N1-1
+ *    T        0 ~ N1-1-T (안움직임)        N1-T ~ N1-1
  *    오른 -> 왼
  *    T         움직이지 않는 INDEX    움직이는 INDEX
- *    0        N1+N2-1 ~ N1+N2-1 (안움직임)        N1-1-0
- *    1        0 ~ N1-2-1 (안움직임)        N1-1-1 ~ N1-1-0
- *    2        0 ~ N1-2-2 (안움직임)        N1-1-2 ~ N1-1-0
- *    3        0 ~ N1-2-3 (안움직임)        N1-1-3 ~ N1-1-0
- *    T        0 ~ N1-2-T (안움직임)        N1-1-T ~ N1-1-0
+ *    0        N1 ~ N1+N2-1 (안움직임)        -
+ *    1        N1+1 ~ N1+N2-1 (안움직임)    N1
+ *    2        N1+2 ~ N1+N2-1 (안움직임)    N1 + 1
+ *    3        N1+3 ~ N1+N2-1 (안움직임)        N1-1-3 ~ N1-1-0
+ *    T        N1+T ~ N1+N2-1 (안움직임)        N1-1-T ~ N1-1-0
+ *    (index - T) < N1
  */
 fun main() {
     /**1. input 검사*/
@@ -120,20 +117,24 @@ fun main() {
             resultArray[newIndex] = c
         }
 
+        /*** 4. T초 후 둘째 줄 개미들의 바뀐 자리를 빈 배열에 담아줌*/
         secondLineAnt.forEachIndexed { index, c ->
             val realIndex = index + N1
             val newIndex =
-                if(T >= index + (index)) {
-                    if(realIndex - T + index < 0 ) 0 else realIndex-T + index
+                /*** 4-1. T초 후 자리가 바뀌는 개미인지 아니인지 분기*/
+                if((realIndex - T) < N1) {
+                    /*** 4-2. 자리가 바뀌는 개미라면 바뀌는 자리 구하기*/
+                    if(realIndex - T + (index)< 0 + (realIndex - N1)) 0 + (realIndex - N1)
+                    else realIndex - T + (index)
                 }
+                /*** 4-3. 자리가 바뀌지 않는 개미라면 그대로*/
                 else realIndex
-            // 1초
             resultArray[newIndex] = c
         }
 
-
+        /*** 5. 개미들의 자리를 담아준 배열 출력*/
         resultArray.forEachIndexed { index, c ->
-            println("[resultArray]index : $index value : $c")
+            print("$c")
         }
 
 
